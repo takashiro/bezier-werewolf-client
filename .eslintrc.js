@@ -23,7 +23,12 @@ module.exports = {
 		],
     indent: 'off',
     'linebreak-style': 'off',
+		'no-continue': 'off',
 		'no-plusplus': 'off',
+		'no-restricted-syntax': [
+			'error',
+			'WithStatement',
+		],
     'no-tabs': 'off',
   },
 	settings: {
