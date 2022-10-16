@@ -8,7 +8,7 @@
     "debug": "webpack --mode=development",
     "clean": "rimraf dist",
     "test": "npm run lint && npm run jest",
-    "lint": "eslint --ext=ts,js .",
+    "lint": "eslint --ext=ts,js --max-warnings=0 .",
     "jest": "jest --coverage=true"
   },
   "repository": {
