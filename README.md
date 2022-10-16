@@ -24,7 +24,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 Introduction
 ------------
 
-This is an open-source RESTful API implementation for One Night Ultimate Werewolf.
+This is an open-source client for One Night Ultimate Werewolf.
 
 Server: https://github.com/takashiro/bezier-werewolf-server
 
