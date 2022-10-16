@@ -1,7 +1,7 @@
 import { expect, it } from '@jest/globals';
 import { Role } from '@bezier/werewolf-core';
 
-import BoardObject from '../../src/core/BoardObject';
+import BoardObject from '../../src/game/BoardObject';
 
 const obj = new BoardObject();
 
