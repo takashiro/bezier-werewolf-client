@@ -42,6 +42,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@bezier/werewolf-core": "^0.4.3"
+    "@bezier/werewolf-core": "^0.4.3",
+    "@karuta/rest-client": "^0.1.1"
   }
 }

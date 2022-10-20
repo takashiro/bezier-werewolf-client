@@ -40,6 +40,7 @@ module.exports = function config(env, argv) {
 		},
 		externals: [
 			'@bezier/werewolf-core',
+			'@karura/rest-client',
 		],
 		devtool: mode !== 'production' ? 'inline-source-map' : undefined,
 	};
