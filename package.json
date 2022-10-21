@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@bezier/werewolf-core": "^0.4.3",
-    "@karuta/rest-client": "^0.1.2"
+    "@karuta/rest-client": "^0.1.2",
+    "mitt": "^3.0.0"
   }
 }

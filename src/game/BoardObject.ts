@@ -1,9 +1,22 @@
+import mitt, { EventType } from 'mitt';
 import { Role } from '@bezier/werewolf-core';
+
+interface Events {
+	roleChanged: Role;
+	selectedChanged: boolean;
+	[event: EventType]: unknown;
+}
 
 export default class BoardObject {
 	protected role = Role.Unknown;
 
 	protected selected = false;
+
+	protected readonly mitt = mitt<Events>();
+
+	readonly on = this.mitt.on;
+
+	readonly off = this.mitt.off;
 
 	getRole(): Role {
 		return this.role;
@@ -11,10 +24,12 @@ export default class BoardObject {
 
 	setRole(role: Role): void {
 		this.role = role;
+		this.mitt.emit('roleChanged', role);
 	}
 
 	setSelected(selected: boolean): void {
 		this.selected = selected;
+		this.mitt.emit('selectedChanged', selected);
 	}
 
 	isSelected(): boolean {
