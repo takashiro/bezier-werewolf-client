@@ -1,5 +1,6 @@
 import mitt, { EventType } from 'mitt';
 import {
+	LobbyStatus,
 	GameConfig,
 	Room as RoomConfig,
 } from '@bezier/werewolf-core';
@@ -26,6 +27,14 @@ export default class Lobby extends ClientContext {
 	readonly on = this.mitt.on;
 
 	readonly off = this.mitt.off;
+
+	async getStatus(): Promise<LobbyStatus> {
+		const res = await this.client.get('status');
+		if (res.status !== 200) {
+			throw new Error('The server is not running.');
+		}
+		return res.json();
+	}
 
 	/**
 	 * @returns The current room where the user is in.
