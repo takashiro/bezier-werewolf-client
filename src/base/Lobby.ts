@@ -115,7 +115,10 @@ export default class Lobby extends ClientContext {
 	 */
 	#createRoom(id: number): Room {
 		const client = this.client.derive(`room/${id}`);
-		return new Room(client, this.storage, String(id));
+		return new Room(client, this.storage && {
+			id: String(id),
+			storage: this.storage.getApi(),
+		});
 	}
 
 	/**

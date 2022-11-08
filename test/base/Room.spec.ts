@@ -12,14 +12,13 @@ import Room from '../../src/base/Room';
 
 const get = jest.fn<() => Promise<unknown>>();
 const client = { get } as unknown as Client;
-const storage = {} as unknown as Storage;
 
 beforeEach(() => {
 	get.mockClear();
 });
 
 describe('Get frequently used configurations', () => {
-	const room = new Room(client, storage, '3');
+	const room = new Room(client);
 	room.setConfig({
 		salt: '123',
 		ownerKey: '345',
@@ -45,7 +44,7 @@ describe('Get frequently used configurations', () => {
 });
 
 describe('Fetch room configuration', () => {
-	const room = new Room(client, storage, '8');
+	const room = new Room(client);
 	const saveItem = jest.spyOn(room, 'saveItem').mockReturnValue();
 
 	it('rejects API failure', async () => {
@@ -87,7 +86,7 @@ describe('Fetch room configuration', () => {
 });
 
 describe('Read / write configuration from local storage', () => {
-	const room = new Room(client, storage, '8');
+	const room = new Room(client);
 	jest.spyOn(room, 'readItem').mockReturnValueOnce({ salt: '333' });
 	const removeItem = jest.spyOn(room, 'removeItem').mockReturnValue();
 

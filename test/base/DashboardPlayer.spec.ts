@@ -16,7 +16,7 @@ const client = {
 const storage = {} as unknown as jest.Mocked<Storage>;
 
 it('clears local storage data', () => {
-	const player = new DashboardPlayer(client, storage, 'me');
+	const player = new DashboardPlayer(client);
 	const removeItem = jest.spyOn(player, 'removeItem').mockReturnValue();
 	player.clearStorage();
 	expect(removeItem).toBeCalledTimes(2);
@@ -25,7 +25,7 @@ it('clears local storage data', () => {
 });
 
 describe('generates seat key', () => {
-	const player = new DashboardPlayer(client, storage, 'me');
+	const player = new DashboardPlayer(client);
 	const saveItem = jest.spyOn(player, 'saveItem').mockReturnValue();
 
 	it('generates a random seat key', () => {
@@ -40,7 +40,7 @@ describe('generates seat key', () => {
 });
 
 describe('reads seat key from local storage', () => {
-	const player = new DashboardPlayer(client, storage, 'me');
+	const player = new DashboardPlayer(client);
 	const readRawItem = jest.spyOn(player, 'readRawItem');
 
 	it('fetches an existing seat key', () => {
@@ -56,7 +56,7 @@ describe('reads seat key from local storage', () => {
 });
 
 describe('fetches profile from server', () => {
-	const player = new DashboardPlayer(client, storage, 'me');
+	const player = new DashboardPlayer(client);
 	const saveItem = jest.spyOn(player, 'saveItem').mockReturnValue();
 	jest.spyOn(player, 'fetchSeatKey').mockReturnValue('123');
 
@@ -103,7 +103,7 @@ describe('fetches profile from server', () => {
 });
 
 describe('fetches profile from local storage', () => {
-	const player = new DashboardPlayer(client, storage, 'me');
+	const player = new DashboardPlayer(client);
 	const readItem = jest.spyOn(player, 'readItem');
 
 	it('reads data for the 1st time', async () => {
