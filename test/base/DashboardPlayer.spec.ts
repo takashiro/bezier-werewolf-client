@@ -13,7 +13,6 @@ const get = jest.fn<() => Promise<unknown>>();
 const client = {
 	get,
 } as unknown as jest.Mocked<Client>;
-const storage = {} as unknown as jest.Mocked<Storage>;
 
 it('clears local storage data', () => {
 	const player = new DashboardPlayer(client);
