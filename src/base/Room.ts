@@ -54,7 +54,7 @@ export default class Room extends ClientContext {
 			return this.config;
 		}
 
-		const res = await this.client.get(`room/${this.id}`);
+		const res = await this.client.get('');
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
 		}
