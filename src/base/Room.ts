@@ -9,10 +9,16 @@ import {
 } from '@karuta/rest-client';
 
 export default class Room extends ClientContext {
+	protected id = 0;
+
 	protected config?: RoomConfig;
 
-	getId(): number | undefined {
-		return this.config?.id;
+	getId(): number {
+		return this.id;
+	}
+
+	setId(id: number): void {
+		this.id = id;
 	}
 
 	getRoles(): Role[] | undefined {
@@ -35,25 +41,24 @@ export default class Room extends ClientContext {
 		this.config = config;
 	}
 
+	readConfig(): RoomConfig | undefined {
+		try {
+			this.config = this.readItem('config');
+		} catch (err) {
+			// ignore
+		}
+		return this.config;
+	}
+
+	saveConfig(): void {
+		this.saveItem('config', this.config);
+	}
+
 	clearStorage(): void {
 		this.removeItem('config');
 	}
 
 	async fetchConfig(): Promise<RoomConfig> {
-		if (this.config) {
-			return this.config;
-		}
-
-		try {
-			this.config = this.readItem('config');
-		} catch (error) {
-			// ignore
-		}
-
-		if (this.config) {
-			return this.config;
-		}
-
 		const res = await this.client.get('');
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
@@ -62,7 +67,6 @@ export default class Room extends ClientContext {
 		if (!this.config) {
 			throw new Error('No configuration returned from server.');
 		}
-		this.saveItem('config', this.config);
 		return this.config;
 	}
 }

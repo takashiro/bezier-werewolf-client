@@ -18,8 +18,6 @@ type ExpiryMap = Record<string, number>;
 export default class Lobby extends ClientContext {
 	protected currentRoom?: Room;
 
-	protected expiryMap: ExpiryMap = {};
-
 	protected expiryLimit = 12 * 3600;
 
 	protected readonly mitt = mitt<Events>();
@@ -31,7 +29,7 @@ export default class Lobby extends ClientContext {
 	async getStatus(): Promise<LobbyStatus> {
 		const res = await this.client.get('status');
 		if (res.status !== 200) {
-			throw new Error('The server is not running.');
+			throw new Error(await res.text());
 		}
 		return res.json();
 	}
@@ -53,9 +51,12 @@ export default class Lobby extends ClientContext {
 	 * The request will be sent to server.
 	 * @param options room options
 	 */
-	async createRoom(options: GameConfig): Promise<void> {
+	async createRoom(options: GameConfig): Promise<Room> {
 		const res = await this.client.post('room', {
 			body: JSON.stringify(options),
+			headers: {
+				'content-type': 'application/json',
+			},
 		});
 
 		if (res.status !== 200) {
@@ -65,9 +66,11 @@ export default class Lobby extends ClientContext {
 		const config: RoomConfig = await res.json();
 		const room = this.#createRoom(config.id);
 		room.setConfig(config);
+		room.saveConfig();
 		this.saveRoom(room);
-
 		this.setRoom(room);
+
+		return room;
 	}
 
 	/**
@@ -75,31 +78,38 @@ export default class Lobby extends ClientContext {
 	 * If it's successful, the current room will be changed.
 	 * @param id Room ID
 	 */
-	async enterRoom(id: number): Promise<void> {
+	async enterRoom(id: number): Promise<Room> {
 		delete this.currentRoom;
-
 		const room = this.#createRoom(id);
-		if (this.hasRoom(room)) {
-			try {
-				await room.fetchConfig();
-				this.setRoom(room);
-			} catch (error) {
-				// Ignore
-			}
+		if (this.hasRoom(id)) {
+			room.readConfig();
 		}
-
-		await room.fetchConfig();
+		if (!room.getConfig()) {
+			await room.fetchConfig();
+			room.saveConfig();
+			this.saveRoom(room);
+		}
 		this.setRoom(room);
-		this.saveRoom(room);
+		return room;
+	}
+
+	async deleteRoom(id: number, ownerKey: string): Promise<void> {
+		const query = new URLSearchParams({ ownerKey });
+		const res = await this.client.delete(`room/${id}?${query.toString()}`);
+		if (res.status !== 200) {
+			throw new HttpError(res.status, await res.text());
+		}
+		const expiryMap = this.filterExpiryMap();
+		delete expiryMap[id];
+		this.saveExpiryMap(expiryMap);
 	}
 
 	/**
 	 * Check whether a room is already in the local storage.
-	 * @param room room instance
+	 * @param id room id
 	 * @returns
 	 */
-	protected hasRoom(room: Room): boolean {
-		const id = room.getId();
+	hasRoom(id: number): boolean {
 		const expiryMap = this.filterExpiryMap();
 		return Boolean(id && expiryMap[id]);
 	}
@@ -108,13 +118,14 @@ export default class Lobby extends ClientContext {
 	 * Save a room to the expiry map.
 	 * @param room room instance
 	 */
-	protected saveRoom(room: Room): void {
+	saveRoom(room: Room): void {
 		const id = room.getId();
-		if (!id) {
+		if (id <= 0) {
 			throw new Error('The room has no configuration.');
 		}
-		this.expiryMap[id] = new Date().getTime() + 3600 * 1000;
-		this.saveExpiryMap();
+		const expiryMap = this.readExpiryMap();
+		expiryMap[id] = new Date().getTime() + 3600 * 1000;
+		this.saveExpiryMap(expiryMap);
 	}
 
 	/**
@@ -124,59 +135,57 @@ export default class Lobby extends ClientContext {
 	 */
 	#createRoom(id: number): Room {
 		const client = this.client.derive(`room/${id}`);
-		return new Room(client, this.storage && {
+		const room = new Room(client, this.storage && {
 			id: String(id),
 			storage: this.storage.getApi(),
 		});
+		room.setId(id);
+		return room;
 	}
 
 	/**
 	 * @returns A map of rooms in the local storage.
 	 */
 	protected filterExpiryMap(): ExpiryMap {
-		try {
-			this.readExpiryMap();
-		} catch (error) {
-			// Ignore
-		}
-
+		const expiryMap = this.readExpiryMap();
 		const now = new Date().getTime();
-		const roomIds = Object.keys(this.expiryMap);
+		const roomIds = Object.keys(expiryMap);
 
 		let modified = false;
 		for (const roomId of roomIds) {
-			const expiry = this.expiryMap[roomId];
+			const expiry = expiryMap[roomId];
+			const id = Number.parseInt(roomId, 10);
+			if (Number.isNaN(id)) {
+				delete expiryMap[roomId];
+				continue;
+			}
 			if (expiry <= now) {
 				modified = true;
-				delete this.expiryMap[roomId];
-				const id = Number.parseInt(roomId, 10);
-				if (Number.isNaN(id)) {
-					continue;
-				}
+				delete expiryMap[roomId];
 				const room = this.#createRoom(id);
 				room.clearStorage();
 			}
 		}
-
 		if (modified) {
 			try {
-				this.saveExpiryMap();
+				this.saveExpiryMap(expiryMap);
 			} catch (error) {
 				// Ingore
 			}
 		}
 
-		return this.expiryMap;
+		return expiryMap;
 	}
 
-	protected readExpiryMap(): void {
-		this.expiryMap = this.readItem('expiry-map');
-	}
-
-	protected saveExpiryMap(): void {
-		if (!this.expiryMap) {
-			return;
+	protected readExpiryMap(): ExpiryMap {
+		try {
+			return this.readItem('expiry-map');
+		} catch (error) {
+			return {};
 		}
-		this.saveItem('expiry-map', this.expiryMap);
+	}
+
+	protected saveExpiryMap(expiryMap: ExpiryMap): void {
+		this.saveItem('expiry-map', expiryMap);
 	}
 }
