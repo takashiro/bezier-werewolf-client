@@ -34,7 +34,7 @@ export default class DashboardPlayer extends ClientContext {
 		return this.seatKey;
 	}
 
-	async fetchProfile(seat: number): Promise<PlayerProfile> {
+	async fetchProfile(): Promise<PlayerProfile> {
 		if (this.profile) {
 			return this.profile;
 		}
@@ -50,7 +50,7 @@ export default class DashboardPlayer extends ClientContext {
 		}
 
 		const seatKey = this.fetchSeatKey();
-		const res = await this.client.get(`player/${seat}/seat?seatKey=${seatKey}`);
+		const res = await this.client.get(`seat?seatKey=${seatKey}`);
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
 		}

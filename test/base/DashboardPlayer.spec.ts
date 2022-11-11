@@ -3,16 +3,17 @@ import {
 	it,
 	expect,
 	describe,
-	beforeEach,
+	beforeAll,
+	afterAll,
 } from '@jest/globals';
-import { Client } from '@karuta/rest-client';
+import { Role } from '@bezier/werewolf-core';
 
+import { client } from '../globals';
+import MemoryStorage from '../MemoryStorage';
+
+import Lobby from '../../src/base/Lobby';
 import DashboardPlayer from '../../src/base/DashboardPlayer';
-
-const get = jest.fn<() => Promise<unknown>>();
-const client = {
-	get,
-} as unknown as jest.Mocked<Client>;
+import Room from '../../src/base/Room';
 
 it('clears local storage data', () => {
 	const player = new DashboardPlayer(client);
@@ -55,49 +56,68 @@ describe('reads seat key from local storage', () => {
 });
 
 describe('fetches profile from server', () => {
-	const player = new DashboardPlayer(client);
-	const saveItem = jest.spyOn(player, 'saveItem').mockReturnValue();
-	jest.spyOn(player, 'fetchSeatKey').mockReturnValue('123');
+	const storage = new MemoryStorage();
+	const lobby = new Lobby(client, {
+		id: 'lobby',
+		storage,
+	});
 
-	beforeEach(() => {
-		get.mockClear();
+	let roomId = 0;
+	let room: Room;
+	const roles: Role[] = [
+		Role.Werewolf,
+		Role.Villager,
+		Role.Villager,
+		Role.Villager,
+		Role.Villager,
+	];
+
+	beforeAll(async () => {
+		const creator = new Lobby(client, {
+			id: 'creator',
+			storage,
+		});
+		room = await creator.createRoom({ roles });
+		roomId = room.getId();
+	});
+
+	afterAll(async () => {
+		const ownerKey = room.getOwnerKey();
+		if (ownerKey) {
+			await lobby.deleteRoom(roomId, ownerKey);
+		}
 	});
 
 	it('throws an error when failing to fetch data from server', async () => {
-		get.mockResolvedValueOnce({
-			status: 404,
-			text: () => 'unknown seat',
-		});
-		await expect(() => player.fetchProfile(2)).rejects.toThrowError('unknown seat');
-		expect(get).toBeCalledWith('player/2/seat?seatKey=123');
+		const player = room.getPlayer(12);
+		await expect(() => player.fetchProfile()).rejects.toThrowError('The seat does not exist');
 	});
 
-	it('receives valid data from server', async () => {
+	it('receives invalid data from server', async () => {
+		const player = room.getPlayer(13);
+		const get = jest.spyOn(Reflect.get(player, 'client'), 'get');
 		get.mockResolvedValueOnce({
 			status: 200,
 			json: () => null,
-		});
-		await expect(() => player.fetchProfile(2)).rejects.toThrowError('No data is returned from the server.');
-		expect(get).toBeCalledWith('player/2/seat?seatKey=123');
+		} as unknown as Response);
+		await expect(() => player.fetchProfile()).rejects.toThrowError('No data is returned from the server.');
+		get.mockRestore();
 	});
 
 	it('receives valid data from server', async () => {
-		get.mockResolvedValueOnce({
-			status: 200,
-			json: () => ({ b: 1 }),
-		});
-		const profile = await player.fetchProfile(2);
-		expect(get).toBeCalledWith('player/2/seat?seatKey=123');
-		expect(profile).toStrictEqual({ b: 1 });
-	});
-
-	it('saves profile', async () => {
-		expect(saveItem).toBeCalledWith('profile', { b: 1 });
+		const player = room.getPlayer(1);
+		const profile = await player.fetchProfile();
+		expect(roles).toContain(profile.role);
+		expect(profile.seat).toStrictEqual(1);
 	});
 
 	it('reads saved profile', async () => {
-		const profile = await player.fetchProfile(2);
-		expect(profile).toStrictEqual({ b: 1 });
+		const player = room.getPlayer(1);
+		const get = jest.spyOn(Reflect.get(player, 'client'), 'get');
+		const profile = await player.fetchProfile();
+		expect(profile.seat).toBe(1);
+		expect(get).not.toBeCalled();
+		get.mockRestore();
 	});
 });
 
@@ -107,13 +127,13 @@ describe('fetches profile from local storage', () => {
 
 	it('reads data for the 1st time', async () => {
 		readItem.mockReturnValueOnce('abc');
-		const profile = await player.fetchProfile(2);
+		const profile = await player.fetchProfile();
 		expect(readItem).toBeCalledWith('profile');
 		expect(profile).toBe('abc');
 	});
 
 	it('reads cached data', async () => {
-		const profile = await player.fetchProfile(2);
+		const profile = await player.fetchProfile();
 		expect(profile).toBe('abc');
 	});
 });

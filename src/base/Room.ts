@@ -8,6 +8,8 @@ import {
 	HttpError,
 } from '@karuta/rest-client';
 
+import DashboardPlayer from './DashboardPlayer';
+
 export default class Room extends ClientContext {
 	protected id = 0;
 
@@ -68,5 +70,13 @@ export default class Room extends ClientContext {
 			throw new Error('No configuration returned from server.');
 		}
 		return this.config;
+	}
+
+	getPlayer(seat: number): DashboardPlayer {
+		const client = this.client.derive(`player/${seat}`);
+		return new DashboardPlayer(client, this.storage && {
+			id: `dashboard-player-${this.id}-${seat}`,
+			storage: this.storage.getApi(),
+		});
 	}
 }
