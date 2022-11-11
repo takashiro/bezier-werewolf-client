@@ -66,9 +66,9 @@ describe('fetches profile from server', () => {
 	let room: Room;
 	const roles: Role[] = [
 		Role.Werewolf,
-		Role.Villager,
-		Role.Villager,
-		Role.Villager,
+		Role.Hunter,
+		Role.Drunk,
+		Role.Seer,
 		Role.Villager,
 	];
 
@@ -77,7 +77,7 @@ describe('fetches profile from server', () => {
 			id: 'creator',
 			storage,
 		});
-		room = await creator.createRoom({ roles });
+		room = await creator.createRoom({ roles, random: false });
 		roomId = room.getId();
 	});
 
@@ -101,23 +101,90 @@ describe('fetches profile from server', () => {
 			json: () => null,
 		} as unknown as Response);
 		await expect(() => player.fetchProfile()).rejects.toThrowError('No data is returned from the server.');
-		get.mockRestore();
 	});
 
 	it('receives valid data from server', async () => {
 		const player = room.getPlayer(1);
 		const profile = await player.fetchProfile();
-		expect(roles).toContain(profile.role);
-		expect(profile.seat).toStrictEqual(1);
+		expect(profile.role).toBe(Role.Seer);
+		expect(profile.seat).toBe(1);
 	});
 
 	it('reads saved profile', async () => {
 		const player = room.getPlayer(1);
 		const get = jest.spyOn(Reflect.get(player, 'client'), 'get');
 		const profile = await player.fetchProfile();
+		expect(profile.role).toBe(Role.Seer);
 		expect(profile.seat).toBe(1);
 		expect(get).not.toBeCalled();
-		get.mockRestore();
+	});
+
+	it('sees nothing on the board at first', async () => {
+		const seer = room.getPlayer(1);
+		const { cards, players } = await seer.fetchBoard();
+		expect(cards).toHaveLength(0);
+		expect(players).toHaveLength(0);
+	});
+
+	it('invokes seer skill at night', async () => {
+		const seer = room.getPlayer(1);
+		const { cards } = await seer.invokeSkill(0, { cards: [0, 1] });
+		expect(cards).toHaveLength(2);
+		expect(cards?.[0]).toEqual({ pos: 0, role: Role.Werewolf });
+		expect(cards?.[1]).toEqual({ pos: 1, role: Role.Hunter });
+	});
+
+	it('does nothing at night', async () => {
+		const player = room.getPlayer(2);
+		await player.fetchProfile();
+		const { cards, players } = await player.invokeSkill(0);
+		expect(cards).toBeUndefined();
+		expect(players).toBeUndefined();
+	});
+
+	it('votes to each other', async () => {
+		const seer = room.getPlayer(1);
+		const villager = room.getPlayer(2);
+		await seer.lynchPlayer(2);
+		const lynch = await seer.fetchLynchResult();
+		expect(lynch.progress).toBe(1);
+		expect(lynch.limit).toBe(2);
+		await villager.lynchPlayer(1);
+	});
+
+	it('sees lynch result', async () => {
+		const villager = room.getPlayer(2);
+		const lynch = await villager.fetchLynchResult();
+		expect(lynch.progress).toBe(2);
+		expect(lynch.limit).toBe(2);
+		expect(lynch.cards).toEqual([
+			{ pos: 0, role: Role.Werewolf },
+			{ pos: 1, role: Role.Hunter },
+			{ pos: 2, role: Role.Drunk },
+		]);
+		expect(lynch.players).toEqual([
+			{ seat: 1, role: Role.Seer, target: 2 },
+			{ seat: 2, role: Role.Villager, target: 1 },
+		]);
+	});
+
+	it('can handle network errors', async () => {
+		const player = room.getPlayer(1);
+
+		const mockedClient = Reflect.get(player, 'client');
+		jest.spyOn(mockedClient, 'get').mockResolvedValue({
+			res: 503,
+			text: () => 'Service Unavailable',
+		});
+		jest.spyOn(mockedClient, 'post').mockResolvedValue({
+			res: 503,
+			text: () => 'Service Unavailable',
+		});
+
+		await expect(() => player.fetchBoard()).rejects.toThrowError('Service Unavailable');
+		await expect(() => player.invokeSkill(0)).rejects.toThrowError('Service Unavailable');
+		await expect(() => player.lynchPlayer(1)).rejects.toThrowError('Service Unavailable');
+		await expect(() => player.fetchLynchResult()).rejects.toThrowError('Service Unavailable');
 	});
 });
 

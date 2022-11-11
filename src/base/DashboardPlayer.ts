@@ -1,4 +1,9 @@
-import { Player as PlayerProfile } from '@bezier/werewolf-core';
+import {
+	LynchResult,
+	Player as PlayerProfile,
+	Selection,
+	Vision,
+} from '@bezier/werewolf-core';
 import {
 	ClientContext,
 	HttpError,
@@ -61,5 +66,59 @@ export default class DashboardPlayer extends ClientContext {
 		}
 		this.saveItem(itemName, this.profile);
 		return this.profile;
+	}
+
+	protected getAuthParams(): string {
+		const query = new URLSearchParams({
+			seatKey: this.fetchSeatKey(),
+		});
+		return query.toString();
+	}
+
+	async fetchBoard(): Promise<Vision> {
+		const res = await this.client.get(`board?${this.getAuthParams()}`);
+		if (res.status !== 200) {
+			throw new HttpError(res.status, await res.text());
+		}
+		return res.json();
+	}
+
+	async invokeSkill(skillIndex: number, selection: Selection = {}): Promise<Vision> {
+		const res = await this.client.post(`skill/${skillIndex}?${this.getAuthParams()}`, {
+			headers: {
+				'content-type': 'application/json',
+			},
+			body: JSON.stringify(selection),
+		});
+		if (res.status !== 200) {
+			throw new HttpError(res.status, await res.text());
+		}
+
+		try {
+			return await res.json();
+		} catch (error) {
+			return {};
+		}
+	}
+
+	async lynchPlayer(seat: number): Promise<void> {
+		const data = { target: seat };
+		const res = await this.client.post(`lynch?${this.getAuthParams()}`, {
+			headers: {
+				'content-type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+		if (res.status !== 200) {
+			throw new HttpError(res.status, await res.text());
+		}
+	}
+
+	async fetchLynchResult(): Promise<LynchResult> {
+		const res = await this.client.get(`lynch?${this.getAuthParams()}`);
+		if (res.status !== 200) {
+			throw new HttpError(res.status, await res.text());
+		}
+		return res.json();
 	}
 }
