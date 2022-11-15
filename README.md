@@ -30,7 +30,7 @@ Server: https://github.com/takashiro/bezier-werewolf-server
 
 Running Environment
 -------------------
-* Node v16.x or later versions
+* Node v18.x or later versions
 
 Development Environment
 -----------------------
