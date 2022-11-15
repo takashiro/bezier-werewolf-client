@@ -6,6 +6,7 @@ import {
 import {
 	ClientContext,
 	HttpError,
+	ScopedStorage,
 } from '@karuta/rest-client';
 
 import DashboardPlayer from './DashboardPlayer';
@@ -74,9 +75,10 @@ export default class Room extends ClientContext {
 
 	getPlayer(seat: number): DashboardPlayer {
 		const client = this.client.derive(`player/${seat}`);
-		return new DashboardPlayer(client, this.storage && {
-			id: `dashboard-player-${this.id}-${seat}`,
-			storage: this.storage.getApi(),
-		});
+		const player = new DashboardPlayer(client);
+		if (this.storage) {
+			player.setStorage(new ScopedStorage(`dashboard-player-${this.id}-${seat}`, this.storage.getApi()));
+		}
+		return player;
 	}
 }

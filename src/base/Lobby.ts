@@ -4,7 +4,11 @@ import {
 	GameConfig,
 	Room as RoomConfig,
 } from '@bezier/werewolf-core';
-import { ClientContext, HttpError } from '@karuta/rest-client';
+import {
+	ClientContext,
+	HttpError,
+	ScopedStorage,
+} from '@karuta/rest-client';
 
 import Room from './Room';
 
@@ -53,10 +57,7 @@ export default class Lobby extends ClientContext {
 	 */
 	async createRoom(options: GameConfig): Promise<Room> {
 		const res = await this.client.post('room', {
-			body: JSON.stringify(options),
-			headers: {
-				'content-type': 'application/json',
-			},
+			data: options,
 		});
 
 		if (res.status !== 200) {
@@ -94,8 +95,9 @@ export default class Lobby extends ClientContext {
 	}
 
 	async deleteRoom(id: number, ownerKey: string): Promise<void> {
-		const query = new URLSearchParams({ ownerKey });
-		const res = await this.client.delete(`room/${id}?${query.toString()}`);
+		const res = await this.client.delete(`room/${id}`, {
+			query: { ownerKey },
+		});
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
 		}
@@ -135,10 +137,10 @@ export default class Lobby extends ClientContext {
 	 */
 	#createRoom(id: number): Room {
 		const client = this.client.derive(`room/${id}`);
-		const room = new Room(client, this.storage && {
-			id: `room-${id}`,
-			storage: this.storage.getApi(),
-		});
+		const room = new Room(client);
+		if (this.storage) {
+			room.setStorage(new ScopedStorage(`room-${id}`, this.storage.getApi()));
+		}
 		room.setId(id);
 		return room;
 	}

@@ -7,6 +7,7 @@ import {
 	afterAll,
 } from '@jest/globals';
 import { Role } from '@bezier/werewolf-core';
+import { ScopedStorage } from '@karuta/rest-client';
 
 import { client } from '../globals';
 import MemoryStorage from '../MemoryStorage';
@@ -57,10 +58,8 @@ describe('reads seat key from local storage', () => {
 
 describe('fetches profile from server', () => {
 	const storage = new MemoryStorage();
-	const lobby = new Lobby(client, {
-		id: 'lobby',
-		storage,
-	});
+	const lobby = new Lobby(client);
+	lobby.setStorage(new ScopedStorage('lobby', storage));
 
 	let roomId = 0;
 	let room: Room;
@@ -73,10 +72,8 @@ describe('fetches profile from server', () => {
 	];
 
 	beforeAll(async () => {
-		const creator = new Lobby(client, {
-			id: 'creator',
-			storage,
-		});
+		const creator = new Lobby(client);
+		creator.setStorage(new ScopedStorage('creator', storage));
 		room = await creator.createRoom({ roles, random: false });
 		roomId = room.getId();
 	});

@@ -5,7 +5,10 @@ import {
 	describe,
 	afterAll,
 } from '@jest/globals';
-import { Client } from '@karuta/rest-client';
+import {
+	Client,
+	ScopedStorage,
+} from '@karuta/rest-client';
 import {
 	Role,
 	Room as RoomConfig,
@@ -19,10 +22,8 @@ import MemoryStorage from '../MemoryStorage';
 const storage = new MemoryStorage();
 
 describe('Normal Cases', () => {
-	const lobby = new Lobby(client, {
-		id: 'lobby',
-		storage,
-	});
+	const lobby = new Lobby(client);
+	lobby.setStorage(new ScopedStorage('lobby', storage));
 
 	const self: RoomConfig = {
 		id: 0,
@@ -99,10 +100,8 @@ describe('Normal Cases', () => {
 });
 
 describe('Clear expired rooms', () => {
-	const lobby = new Lobby(client, {
-		id: 'lobby',
-		storage,
-	});
+	const lobby = new Lobby(client);
+	lobby.setStorage(new ScopedStorage('lobby', storage));
 
 	const rooms: Room[] = [];
 

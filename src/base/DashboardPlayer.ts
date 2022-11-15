@@ -7,6 +7,7 @@ import {
 import {
 	ClientContext,
 	HttpError,
+	Query,
 } from '@karuta/rest-client';
 
 import randstr from '../util/randstr';
@@ -54,8 +55,7 @@ export default class DashboardPlayer extends ClientContext {
 			return this.profile;
 		}
 
-		const seatKey = this.fetchSeatKey();
-		const res = await this.client.get(`seat?seatKey=${seatKey}`);
+		const res = await this.client.get('seat', { query: this.getAuthParams() });
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
 		}
@@ -68,15 +68,14 @@ export default class DashboardPlayer extends ClientContext {
 		return this.profile;
 	}
 
-	protected getAuthParams(): string {
-		const query = new URLSearchParams({
+	protected getAuthParams(): Query {
+		return {
 			seatKey: this.fetchSeatKey(),
-		});
-		return query.toString();
+		};
 	}
 
 	async fetchBoard(): Promise<Vision> {
-		const res = await this.client.get(`board?${this.getAuthParams()}`);
+		const res = await this.client.get('board', { query: this.getAuthParams() });
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
 		}
@@ -84,11 +83,9 @@ export default class DashboardPlayer extends ClientContext {
 	}
 
 	async invokeSkill(skillIndex: number, selection: Selection = {}): Promise<Vision> {
-		const res = await this.client.post(`skill/${skillIndex}?${this.getAuthParams()}`, {
-			headers: {
-				'content-type': 'application/json',
-			},
-			body: JSON.stringify(selection),
+		const res = await this.client.post(`skill/${skillIndex}`, {
+			query: this.getAuthParams(),
+			data: selection,
 		});
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
@@ -102,12 +99,9 @@ export default class DashboardPlayer extends ClientContext {
 	}
 
 	async lynchPlayer(seat: number): Promise<void> {
-		const data = { target: seat };
-		const res = await this.client.post(`lynch?${this.getAuthParams()}`, {
-			headers: {
-				'content-type': 'application/json',
-			},
-			body: JSON.stringify(data),
+		const res = await this.client.post('lynch', {
+			query: this.getAuthParams(),
+			data: { target: seat },
 		});
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
@@ -115,7 +109,9 @@ export default class DashboardPlayer extends ClientContext {
 	}
 
 	async fetchLynchResult(): Promise<LynchResult> {
-		const res = await this.client.get(`lynch?${this.getAuthParams()}`);
+		const res = await this.client.get('lynch', {
+			query: this.getAuthParams(),
+		});
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
 		}
