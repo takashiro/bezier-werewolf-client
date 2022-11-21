@@ -41,7 +41,7 @@ export default abstract class Skill {
 	 */
 	// eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
 	filterCard(target: Card): boolean {
-		return true;
+		return false;
 	}
 
 	/**
@@ -51,7 +51,7 @@ export default abstract class Skill {
 	 */
 	// eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
 	filterPlayer(target: Player): boolean {
-		return true;
+		return false;
 	}
 
 	/**

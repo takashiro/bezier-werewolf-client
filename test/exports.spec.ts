@@ -14,6 +14,9 @@ import {
 	Player,
 	Skill,
 	TeamProfile,
+	SingleCardSkill,
+	SinglePlayerSkill,
+	TargetlessSkill,
 } from '../src';
 
 it('should have the following exports', () => {
@@ -30,4 +33,9 @@ it('should have the following exports', () => {
 	expect(Player).toBeTruthy();
 	expect(Skill).toBeTruthy();
 	expect(TeamProfile).toBeTruthy();
+
+	/* collection */
+	expect(SingleCardSkill).toBeTruthy();
+	expect(SinglePlayerSkill).toBeTruthy();
+	expect(TargetlessSkill).toBeTruthy();
 });

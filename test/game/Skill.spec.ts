@@ -33,8 +33,8 @@ it('is marked as used', () => {
 	expect(skill.isUsed()).toBe(true);
 });
 
-it('accepts all targets by default', () => {
-	expect(skill.filterCard(card)).toBe(true);
-	expect(skill.filterPlayer(owner)).toBe(true);
+it('accepts no targets by default', () => {
+	expect(skill.filterCard(card)).toBe(false);
+	expect(skill.filterPlayer(owner)).toBe(false);
 	expect(skill.isFeasible()).toBe(true);
 });
