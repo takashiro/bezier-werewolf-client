@@ -19,6 +19,7 @@ import {
 	TargetlessSkill,
 	DoublePlayerSkill,
 	MultiPlayerSkill,
+	Collection,
 } from '../src';
 
 it('should have the following exports', () => {
@@ -37,6 +38,7 @@ it('should have the following exports', () => {
 	expect(TeamProfile).toBeTruthy();
 
 	/* collection */
+	expect(Collection).toBeTruthy();
 	expect(DoublePlayerSkill).toBeTruthy();
 	expect(MultiPlayerSkill).toBeTruthy();
 	expect(SingleCardSkill).toBeTruthy();
