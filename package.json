@@ -27,7 +27,7 @@
     "url": "https://github.com/takashiro/bezier-werewolf-client/issues"
   },
   "dependencies": {
-    "@bezier/werewolf-core": "^0.4.3",
+    "@bezier/werewolf-core": "^0.4.4",
     "@karuta/rest-client": "^0.3.0",
     "mitt": "^3.0.0"
   },
