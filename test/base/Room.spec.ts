@@ -8,7 +8,7 @@ import {
 import { Role } from '@bezier/werewolf-core';
 import { Client } from '@karuta/rest-client';
 
-import Room from '../../src/base/Room';
+import Room from '@bezier/werewolf-client/base/Room';
 
 const get = jest.fn<() => Promise<unknown>>();
 const client = { get } as unknown as Client;

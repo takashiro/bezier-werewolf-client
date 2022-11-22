@@ -9,12 +9,12 @@ import {
 import { Role } from '@bezier/werewolf-core';
 import { ScopedStorage } from '@karuta/rest-client';
 
+import Lobby from '@bezier/werewolf-client/base/Lobby';
+import DashboardPlayer from '@bezier/werewolf-client/base/DashboardPlayer';
+import Room from '@bezier/werewolf-client/base/Room';
+
 import { client } from '../globals';
 import MemoryStorage from '../MemoryStorage';
-
-import Lobby from '../../src/base/Lobby';
-import DashboardPlayer from '../../src/base/DashboardPlayer';
-import Room from '../../src/base/Room';
 
 it('clears local storage data', () => {
 	const player = new DashboardPlayer(client);

@@ -3,8 +3,8 @@ import {
 	expect,
 } from '@jest/globals';
 
-import Board from '../../src/game/Board';
-import TargetlessSkill from '../../src/collection/TargetlessSkill';
+import Board from '@bezier/werewolf-client/game/Board';
+import TargetlessSkill from '@bezier/werewolf-client/collection/TargetlessSkill';
 
 const board = new Board({
 	playerNum: 5,

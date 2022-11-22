@@ -1,0 +1,31 @@
+{
+  "name": "@bezier-test/werewolf-client",
+  "version": "0.1.0",
+  "description": "Web Client of One Night Ultimate Werewolf",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takashiro/bezier-werewolf-client.git"
+  },
+  "keywords": [
+    "one",
+    "night",
+    "ultimate",
+    "werewolf"
+  ],
+  "author": "Kazuichi Takashiro",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/takashiro/bezier-werewolf-client/issues"
+  },
+  "dependencies": {
+    "@bezier/werewolf-client": "file:../src",
+    "@bezier/werewolf-server": "^0.4.6",
+    "@jest/globals": "^29.2.0",
+    "@types/express": "^4.17.14",
+    "express": "^4.18.2",
+    "jest": "^29.2.0",
+    "ts-jest": "^29.0.3"
+  },
+  "homepage": "https://github.com/takashiro/bezier-werewolf-client#readme"
+}

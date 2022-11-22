@@ -4,7 +4,7 @@ import {
 	it,
 } from '@jest/globals';
 
-import Board from '../../src/game/Board';
+import Board from '@bezier/werewolf-client/game/Board';
 
 const board = new Board({
 	playerNum: 5,

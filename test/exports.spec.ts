@@ -20,7 +20,7 @@ import {
 	DoublePlayerSkill,
 	MultiPlayerSkill,
 	Collection,
-} from '../src';
+} from '@bezier/werewolf-client';
 
 it('should have the following exports', () => {
 	/* base */

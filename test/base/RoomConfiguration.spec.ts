@@ -7,7 +7,7 @@ import {
 } from '@jest/globals';
 import { Role } from '@bezier/werewolf-core';
 
-import RoomConfiguration from '../../src/base/RoomConfiguration';
+import RoomConfiguration from '@bezier/werewolf-client/base/RoomConfiguration';
 
 const getItem = jest.fn();
 const setItem = jest.fn();
