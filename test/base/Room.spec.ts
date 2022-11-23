@@ -6,7 +6,7 @@ import {
 	beforeEach,
 } from '@jest/globals';
 import { Role } from '@bezier/werewolf-core';
-import { Client } from '@karuta/rest-client';
+import Client from '@karuta/rest-client/Client';
 
 import Room from '@bezier/werewolf-client/base/Room';
 

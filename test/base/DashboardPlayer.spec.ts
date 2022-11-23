@@ -7,7 +7,7 @@ import {
 	afterAll,
 } from '@jest/globals';
 import { Role } from '@bezier/werewolf-core';
-import { ScopedStorage } from '@karuta/rest-client';
+import ScopedStorage from '@karuta/rest-client/ScopedStorage';
 
 import Lobby from '@bezier/werewolf-client/base/Lobby';
 import DashboardPlayer from '@bezier/werewolf-client/base/DashboardPlayer';
