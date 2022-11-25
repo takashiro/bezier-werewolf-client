@@ -6,7 +6,7 @@ import {
 import Board from '@bezier/werewolf-client/game/BasicBoard';
 import Player from '@bezier/werewolf-client/game/Player';
 import Card from '@bezier/werewolf-client/game/Card';
-import Skill from '@bezier/werewolf-client/game/Skill';
+import BasicSkill from '@bezier/werewolf-client/game/BasicSkill';
 
 jest.mock('@bezier/werewolf-client/game/BasicBoard');
 jest.mock('@bezier/werewolf-client/game/Player');
@@ -16,7 +16,7 @@ const MockedBoard = jest.mocked(Board);
 const MockedPlayer = jest.mocked(Player);
 const MockedCard = jest.mocked(Card);
 
-class FakeSkill extends Skill {
+class FakeSkill extends BasicSkill {
 	isFeasible(): boolean { // eslint-disable-line class-methods-use-this
 		return true;
 	}

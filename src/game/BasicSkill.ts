@@ -2,7 +2,7 @@ import Board from './Board';
 import Card from './Card';
 import Player from './Player';
 
-export default abstract class Skill {
+export default abstract class BasicSkill {
 	protected board: Board;
 
 	protected owner: Player;

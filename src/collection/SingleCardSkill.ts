@@ -1,5 +1,5 @@
 import Card from '../game/Card';
-import Skill from '../game/Skill';
+import Skill from '../game/BasicSkill';
 
 export default class SingleCardSkill extends Skill {
 	override filterCard(target: Card): boolean {

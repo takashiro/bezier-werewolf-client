@@ -1,6 +1,6 @@
 import Board from '../game/Board';
 import Player from '../game/Player';
-import Skill from '../game/Skill';
+import Skill from '../game/BasicSkill';
 
 class MultiPlayerSkill extends Skill {
 	constructor(
