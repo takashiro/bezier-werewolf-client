@@ -1,8 +1,9 @@
 import Board from './Board';
+import Skill from './Skill';
 import Card from './Card';
 import Player from './Player';
 
-export default abstract class BasicSkill {
+export default abstract class BasicSkill implements Skill {
 	protected board: Board;
 
 	protected owner: Player;
