@@ -1,4 +1,4 @@
-import Board from './Board';
+import Board from './BasicBoard';
 import Card from './Card';
 import Player from './Player';
 

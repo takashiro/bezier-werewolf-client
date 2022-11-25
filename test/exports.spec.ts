@@ -8,7 +8,7 @@ import {
 	Lobby,
 	Room,
 	RoomConfiguration,
-	Board,
+	BasicBoard,
 	BoardObject,
 	Card,
 	Player,
@@ -30,7 +30,7 @@ it('should have the following exports', () => {
 	expect(RoomConfiguration).toBeTruthy();
 
 	/* game */
-	expect(Board).toBeTruthy();
+	expect(BasicBoard).toBeTruthy();
 	expect(BoardObject).toBeTruthy();
 	expect(Card).toBeTruthy();
 	expect(Player).toBeTruthy();

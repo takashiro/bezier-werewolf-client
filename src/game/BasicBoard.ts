@@ -19,7 +19,7 @@ export interface BoardOptions {
  * This represents the game board.
  * There are players and center cards.
  */
-export default class Board {
+export default class BasicBoard {
 	protected players: Player[];
 
 	protected cards: Card[];

@@ -3,12 +3,12 @@ import {
 	expect,
 	it,
 } from '@jest/globals';
-import Board from '@bezier/werewolf-client/game/Board';
+import Board from '@bezier/werewolf-client/game/BasicBoard';
 import Player from '@bezier/werewolf-client/game/Player';
 import Card from '@bezier/werewolf-client/game/Card';
 import Skill from '@bezier/werewolf-client/game/Skill';
 
-jest.mock('@bezier/werewolf-client/game/Board');
+jest.mock('@bezier/werewolf-client/game/BasicBoard');
 jest.mock('@bezier/werewolf-client/game/Player');
 jest.mock('@bezier/werewolf-client/game/Card');
 

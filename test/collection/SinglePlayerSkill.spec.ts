@@ -3,7 +3,7 @@ import {
 	expect,
 } from '@jest/globals';
 
-import Board from '@bezier/werewolf-client/game/Board';
+import Board from '@bezier/werewolf-client/game/BasicBoard';
 import SinglePlayerSkill from '@bezier/werewolf-client/collection/SinglePlayerSkill';
 
 const board = new Board({
