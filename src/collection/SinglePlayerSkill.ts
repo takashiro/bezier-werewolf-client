@@ -1,4 +1,4 @@
-import Board from '../game/BasicBoard';
+import Board from '../game/Board';
 import Player from '../game/Player';
 import MultiPlayerSkill from './MultiPlayerSkill';
 

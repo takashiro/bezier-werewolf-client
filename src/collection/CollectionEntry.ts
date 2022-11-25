@@ -1,6 +1,6 @@
 import { Role } from '@bezier/werewolf-core';
 
-import Board from '../game/BasicBoard';
+import Board from '../game/Board';
 import Player from '../game/Player';
 import Skill from '../game/Skill';
 

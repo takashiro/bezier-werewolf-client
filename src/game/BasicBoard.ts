@@ -1,25 +1,14 @@
 import { Vision } from '@bezier/werewolf-core';
 
+import Board, { BoardOptions } from './Board';
 import Card from './Card';
 import Player from './Player';
-
-export interface BoardOptions {
-	/**
-	 * Number of players
-	 */
-	playerNum: number;
-
-	/**
-	 * Number of center cards
-	 */
-	cardNum: number;
-}
 
 /**
  * This represents the game board.
  * There are players and center cards.
  */
-export default class BasicBoard {
+export default class BasicBoard implements Board {
 	protected players: Player[];
 
 	protected cards: Card[];
