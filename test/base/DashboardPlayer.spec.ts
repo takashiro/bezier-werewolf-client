@@ -149,24 +149,30 @@ describe('fetches profile from server', () => {
 		const villager = room.getPlayer(2);
 		await seer.lynchPlayer(2);
 		const lynch = await seer.fetchLynchResult();
-		expect(lynch.progress).toBe(1);
-		expect(lynch.limit).toBe(2);
+		expect(lynch.progress.current).toBe(1);
+		expect(lynch.progress.limit).toBe(2);
 		await villager.lynchPlayer(1);
 	});
 
 	it('sees lynch result', async () => {
 		const villager = room.getPlayer(2);
 		const lynch = await villager.fetchLynchResult();
-		expect(lynch.progress).toBe(2);
-		expect(lynch.limit).toBe(2);
-		expect(lynch.cards).toEqual([
+		expect(lynch.progress.current).toBe(2);
+		expect(lynch.progress.limit).toBe(2);
+		expect(lynch.votes).toEqual([
+			{ source: 1, target: 2 },
+			{ source: 2, target: 1 },
+		]);
+
+		const board = await villager.fetchBoard();
+		expect(board.cards).toEqual([
 			{ pos: 0, role: Role.Werewolf },
 			{ pos: 1, role: Role.Hunter },
 			{ pos: 2, role: Role.Drunk },
 		]);
-		expect(lynch.players).toEqual([
-			{ seat: 1, role: Role.Seer, target: 2 },
-			{ seat: 2, role: Role.Villager, target: 1 },
+		expect(board.players).toEqual([
+			{ seat: 1, role: Role.Seer },
+			{ seat: 2, role: Role.Villager },
 		]);
 	});
 
