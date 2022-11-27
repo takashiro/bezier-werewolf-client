@@ -11,6 +11,7 @@ import {
 	BasicBoard,
 	BoardObject,
 	Card,
+	Dashboard,
 	Player,
 	Skill,
 	TeamProfile,
@@ -24,22 +25,24 @@ import {
 	Collection,
 } from '@bezier/werewolf-client';
 
-it('should have the following exports', () => {
-	/* base */
+it('should have the following exports from base package', () => {
 	expect(DashboardPlayer).toBeTruthy();
 	expect(Lobby).toBeTruthy();
 	expect(Room).toBeTruthy();
 	expect(RoomConfiguration).toBeTruthy();
+});
 
-	/* game */
+it('should have the following exports from game package', () => {
 	expect(BasicBoard).toBeTruthy();
 	expect(BoardObject).toBeTruthy();
 	expect(Card).toBeTruthy();
+	expect(Dashboard).toBeTruthy();
 	expect(Player).toBeTruthy();
 	expect(Skill).toBeTruthy();
 	expect(TeamProfile).toBeTruthy();
+});
 
-	/* collection */
+it('should have the following exports from collection package', () => {
 	expect(Collection).toBeTruthy();
 	expect(DoubleCardSkill).toBeTruthy();
 	expect(DoublePlayerSkill).toBeTruthy();
