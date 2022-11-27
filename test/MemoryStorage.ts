@@ -1,4 +1,6 @@
-export default class MemoryStorage implements Storage {
+import ClientStorage from '@karuta/rest-client/ClientStorage';
+
+export default class MemoryStorage implements ClientStorage {
 	protected readonly map = new Map<string, string>();
 
 	get length(): number {
@@ -24,5 +26,9 @@ export default class MemoryStorage implements Storage {
 
 	setItem(key: string, value: string): void {
 		this.map.set(key, value);
+	}
+
+	getApi(): Storage {
+		return this;
 	}
 }
