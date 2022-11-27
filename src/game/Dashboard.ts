@@ -41,14 +41,21 @@ export default class Dashboard extends BasicBoard {
 	 *  - Initialize others.
 	 */
 	async start(): Promise<void> {
-		const vision = await this.self.fetchBoard();
-		this.update(vision);
+		await this.sync();
 
 		const myProfile = await this.self.fetchProfile();
 		const me = this.getPlayer(myProfile.seat);
 		this.me = me;
 		me.update(myProfile);
 		this.addSkills(me.getRole());
+	}
+
+	/**
+	 * Synchronize latest data from server.
+	 */
+	async sync(): Promise<void> {
+		const vision = await this.self.fetchBoard();
+		this.update(vision);
 	}
 
 	/**
