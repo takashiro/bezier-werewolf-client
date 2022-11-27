@@ -123,6 +123,11 @@ describe('fetches profile from server', () => {
 		expect(players).toHaveLength(0);
 	});
 
+	it('can handle invalid skill index', async () => {
+		const seer = room.getPlayer(1);
+		await expect(() => seer.invokeSkill(-1)).rejects.toThrowError('Invalid skill index: -1');
+	});
+
 	it('invokes seer skill at night', async () => {
 		const seer = room.getPlayer(1);
 		const { cards } = await seer.invokeSkill(0, { cards: [0, 1] });
@@ -170,11 +175,11 @@ describe('fetches profile from server', () => {
 
 		const mockedClient = Reflect.get(player, 'client');
 		jest.spyOn(mockedClient, 'get').mockResolvedValue({
-			res: 503,
+			status: 503,
 			text: () => 'Service Unavailable',
 		});
 		jest.spyOn(mockedClient, 'post').mockResolvedValue({
-			res: 503,
+			status: 503,
 			text: () => 'Service Unavailable',
 		});
 
@@ -182,6 +187,23 @@ describe('fetches profile from server', () => {
 		await expect(() => player.invokeSkill(0)).rejects.toThrowError('Service Unavailable');
 		await expect(() => player.lynchPlayer(1)).rejects.toThrowError('Service Unavailable');
 		await expect(() => player.fetchLynchResult()).rejects.toThrowError('Service Unavailable');
+	});
+
+	it('can handle invalid JSON', async () => {
+		const player = room.getPlayer(1);
+
+		const mockedClient = Reflect.get(player, 'client');
+		jest.spyOn(mockedClient, 'post').mockResolvedValue({
+			status: 200,
+			headers: {
+				get: () => 'application/json',
+			},
+			json() {
+				throw new Error('Service Unavailable');
+			},
+		});
+
+		expect(await player.invokeSkill(0)).toStrictEqual({});
 	});
 });
 

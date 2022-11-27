@@ -83,12 +83,20 @@ export default class DashboardPlayer extends ClientContext {
 	}
 
 	async invokeSkill(skillIndex: number, selection: Selection = {}): Promise<Vision> {
+		if (skillIndex < 0) {
+			throw new Error(`Invalid skill index: ${skillIndex}`);
+		}
+
 		const res = await this.client.post(`skill/${skillIndex}`, {
 			query: this.getAuthParams(),
 			data: selection,
 		});
 		if (res.status !== 200) {
 			throw new HttpError(res.status, await res.text());
+		}
+
+		if (!res.headers.get('content-type')?.startsWith('application/json')) {
+			return {};
 		}
 
 		try {
