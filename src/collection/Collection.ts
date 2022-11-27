@@ -22,7 +22,7 @@ export default class Collection {
 	}
 
 	getSkills(role: Role): SkillConstructor[] | undefined {
-		return this.map.get(role)?.skills;
+		return this.get(role)?.skills;
 	}
 
 	getRoles(): IterableIterator<Role> {
