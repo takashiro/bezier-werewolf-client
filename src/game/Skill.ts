@@ -32,6 +32,11 @@ export interface Skill {
 	 * It usually depends on selected cards and players.
 	 */
 	isFeasible(): boolean;
+
+	/**
+	 * Take effect of the skill.
+	 */
+	takeEffect(): void;
 }
 
 export default Skill;

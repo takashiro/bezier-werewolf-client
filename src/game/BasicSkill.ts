@@ -60,4 +60,11 @@ export default abstract class BasicSkill implements Skill {
 	 * It usually depends on selected cards and players.
 	 */
 	abstract isFeasible(): boolean;
+
+	/**
+	 * Take effect of the skill.
+	 */
+	takeEffect(): void {
+		this.setUsed(true);
+	}
 }
