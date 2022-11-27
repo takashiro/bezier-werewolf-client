@@ -17,7 +17,9 @@ import {
 	SingleCardSkill,
 	SinglePlayerSkill,
 	TargetlessSkill,
+	DoubleCardSkill,
 	DoublePlayerSkill,
+	MultiCardSkill,
 	MultiPlayerSkill,
 	Collection,
 } from '@bezier/werewolf-client';
@@ -39,7 +41,9 @@ it('should have the following exports', () => {
 
 	/* collection */
 	expect(Collection).toBeTruthy();
+	expect(DoubleCardSkill).toBeTruthy();
 	expect(DoublePlayerSkill).toBeTruthy();
+	expect(MultiCardSkill).toBeTruthy();
 	expect(MultiPlayerSkill).toBeTruthy();
 	expect(SingleCardSkill).toBeTruthy();
 	expect(SinglePlayerSkill).toBeTruthy();

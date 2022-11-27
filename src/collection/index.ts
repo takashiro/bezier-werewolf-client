@@ -1,6 +1,8 @@
 export { default as Collection } from './Collection';
 export { default as CollectionEntry } from './Collection';
+export { default as DoubleCardSkill } from './DoubleCardSkill';
 export { default as DoublePlayerSkill } from './DoublePlayerSkill';
+export { default as MultiCardSkill } from './MultiCardSkill';
 export { default as MultiPlayerSkill } from './MultiPlayerSkill';
 export { default as SingleCardSkill } from './SingleCardSkill';
 export { default as SinglePlayerSkill } from './SinglePlayerSkill';
