@@ -73,7 +73,7 @@ export default class Room extends ClientContext {
 		return this.config;
 	}
 
-	getPlayer(seat: number): DashboardPlayer {
+	createPlayer(seat: number): DashboardPlayer {
 		const client = this.client.derive(`player/${seat}`);
 		const player = new DashboardPlayer(client);
 		if (this.storage) {

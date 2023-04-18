@@ -47,9 +47,9 @@ afterAll(async () => {
 });
 
 it('takes a seat', async () => {
-	seer = room.getPlayer(1);
-	villager = room.getPlayer(2);
-	werewolf = room.getPlayer(3);
+	seer = room.createPlayer(1);
+	villager = room.createPlayer(2);
+	werewolf = room.createPlayer(3);
 	await Promise.all([
 		seer.fetchProfile(),
 		villager.fetchProfile(),
