@@ -98,6 +98,7 @@ describe('fetches profile from server', () => {
 			json: () => null,
 		} as unknown as Response);
 		await expect(() => player.fetchProfile()).rejects.toThrowError('No data is returned from the server.');
+		expect(room.getDashboardSeat()).toBeUndefined();
 	});
 
 	it('receives valid data from server', async () => {
@@ -105,6 +106,7 @@ describe('fetches profile from server', () => {
 		const profile = await player.fetchProfile();
 		expect(profile.role).toBe(Role.Seer);
 		expect(profile.seat).toBe(1);
+		expect(room.getDashboardSeat()).toBe(1);
 	});
 
 	it('reads saved profile', async () => {

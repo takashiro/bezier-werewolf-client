@@ -1,3 +1,4 @@
+import mitt, { EventType } from 'mitt';
 import {
 	LynchResult,
 	Player as PlayerProfile,
@@ -12,7 +13,20 @@ import {
 
 import randstr from '../util/randstr';
 
+interface Events {
+	seated: void;
+	[event: EventType]: unknown;
+}
+
 export default class DashboardPlayer extends ClientContext {
+	private mitt = mitt<Events>();
+
+	readonly on = this.mitt.on;
+
+	readonly off = this.mitt.off;
+
+	private readonly emit = this.mitt.emit;
+
 	seatKey?: string;
 
 	profile?: PlayerProfile;
@@ -65,6 +79,7 @@ export default class DashboardPlayer extends ClientContext {
 			throw new Error('No data is returned from the server.');
 		}
 		this.saveItem(itemName, this.profile);
+		this.emit('seated');
 		return this.profile;
 	}
 

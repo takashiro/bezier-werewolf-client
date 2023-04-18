@@ -1,4 +1,5 @@
 import {
+	Player,
 	Role,
 	Room as RoomConfig,
 } from '@bezier/werewolf-core';
@@ -73,12 +74,28 @@ export default class Room extends ClientContext {
 		return this.config;
 	}
 
+	getDashboardSeat(): number | undefined {
+		try {
+			const player = this.readItem('dashboard') as Partial<Player>;
+			return player.seat;
+		} catch (e) {
+			// ignore
+		}
+	}
+
+	protected setDashboardSeat(seat: number): void {
+		this.saveItem('dashboard', { seat });
+	}
+
 	createPlayer(seat: number): DashboardPlayer {
 		const client = this.client.derive(`player/${seat}`);
 		const player = new DashboardPlayer(client);
 		if (this.storage) {
 			player.setStorage(new ScopedStorage(`dashboard-player-${this.id}-${seat}`, this.storage.getApi()));
 		}
+		player.on('seated', () => {
+			this.setDashboardSeat(seat);
+		});
 		return player;
 	}
 }
