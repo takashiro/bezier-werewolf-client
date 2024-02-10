@@ -1,4 +1,4 @@
-import Skill from '../game/BasicSkill';
+import Skill from '../game/BasicSkill.js';
 
 export default class TargetlessSkill extends Skill {
 	override isFeasible(): boolean {

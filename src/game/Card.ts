@@ -1,4 +1,4 @@
-import BoardObject from './BoardObject';
+import BoardObject from './BoardObject.js';
 
 export default class Card extends BoardObject {
 	protected index: number;

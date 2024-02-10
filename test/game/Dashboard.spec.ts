@@ -6,18 +6,18 @@ import {
 } from '@jest/globals';
 
 import { Role } from '@bezier/werewolf-core';
-import Lobby from '@bezier/werewolf-client/base/Lobby';
+import Lobby from '../../src/base/Lobby';
 import type {
 	Room,
 	DashboardPlayer,
-} from '@bezier/werewolf-client';
-import Dashboard from '@bezier/werewolf-client/game/Dashboard';
+} from '../../src';
+import Dashboard from '../../src/game/Dashboard';
 import {
 	Collection,
 	DoubleCardSkill,
 	SinglePlayerSkill,
 	TargetlessSkill,
-} from '@bezier/werewolf-client/collection';
+} from '../../src/collection';
 
 import { client } from '../globals';
 import MemoryStorage from '../MemoryStorage';

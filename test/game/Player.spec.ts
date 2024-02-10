@@ -1,6 +1,6 @@
 import { expect, it } from '@jest/globals';
 
-import Player from '@bezier/werewolf-client/game/Player';
+import Player from '../../src/game/Player';
 
 it('has a seat', () => {
 	const player = new Player(1);

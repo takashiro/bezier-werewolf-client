@@ -1,7 +1,7 @@
-import Board from '../game/Board';
-import Card from '../game/Card';
-import Player from '../game/Player';
-import Skill from '../game/BasicSkill';
+import Board from '../game/Board.js';
+import Card from '../game/Card.js';
+import Player from '../game/Player.js';
+import Skill from '../game/BasicSkill.js';
 
 class MultiCardSkill extends Skill {
 	constructor(

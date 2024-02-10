@@ -1,13 +1,12 @@
-import mitt, { EventType } from 'mitt';
-
 import type {
 	LynchResult,
 	Progress,
 	Vote,
 } from '@bezier/werewolf-core';
 
-import type DashboardPlayer from '../base/DashboardPlayer';
-import type Player from './Player';
+import mitt, { EventType } from '../util/mitt.js';
+import type DashboardPlayer from '../base/DashboardPlayer.js';
+import type Player from './Player.js';
 
 interface Events {
 	progressChanged: Progress;

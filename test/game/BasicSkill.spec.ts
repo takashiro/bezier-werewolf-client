@@ -3,14 +3,14 @@ import {
 	expect,
 	it,
 } from '@jest/globals';
-import Board from '@bezier/werewolf-client/game/BasicBoard';
-import Player from '@bezier/werewolf-client/game/Player';
-import Card from '@bezier/werewolf-client/game/Card';
-import BasicSkill from '@bezier/werewolf-client/game/BasicSkill';
+import Board from '../../src/game/BasicBoard';
+import Player from '../../src/game/Player';
+import Card from '../../src/game/Card';
+import BasicSkill from '../../src/game/BasicSkill';
 
-jest.mock('@bezier/werewolf-client/game/BasicBoard');
-jest.mock('@bezier/werewolf-client/game/Player');
-jest.mock('@bezier/werewolf-client/game/Card');
+jest.mock('../../src/game/BasicBoard');
+jest.mock('../../src/game/Player');
+jest.mock('../../src/game/Card');
 
 const MockedBoard = jest.mocked(Board);
 const MockedPlayer = jest.mocked(Player);

@@ -1,6 +1,6 @@
-import PlayerProfile from '@bezier/werewolf-core/Player';
+import PlayerProfile from '@bezier/werewolf-core/Player.js';
 
-import BoardObject from './BoardObject';
+import BoardObject from './BoardObject.js';
 
 export default class Player extends BoardObject {
 	protected seat: number;

@@ -1,5 +1,5 @@
-import type Card from './Card';
-import type Player from './Player';
+import type Card from './Card.js';
+import type Player from './Player.js';
 
 export interface Skill {
 	/**

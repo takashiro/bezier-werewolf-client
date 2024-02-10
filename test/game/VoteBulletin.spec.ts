@@ -6,12 +6,12 @@ import {
 } from '@jest/globals';
 
 import { Role } from '@bezier/werewolf-core';
-import Lobby from '@bezier/werewolf-client/base/Lobby';
+import Lobby from '../../src/base/Lobby';
 import type {
 	Room,
 	DashboardPlayer,
-} from '@bezier/werewolf-client';
-import VoteBulletin from '@bezier/werewolf-client/game/VoteBulletin';
+} from '../../src';
+import VoteBulletin from '../../src/game/VoteBulletin';
 
 import { client } from '../globals';
 import MemoryStorage from '../MemoryStorage';

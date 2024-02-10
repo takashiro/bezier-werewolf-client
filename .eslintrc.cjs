@@ -13,14 +13,8 @@ module.exports = {
   },
   rules: {
 		'consistent-return': 'off',
-		'import/extensions': [
-			'error',
-			'ignorePackages',
-			{
-				ts: 'never',
-				js: 'never',
-			},
-		],
+		'import/extensions': 'off',
+		'import/no-unresolved': 'off',
     indent: 'off',
     'linebreak-style': 'off',
 		'no-continue': 'off',

@@ -1,8 +1,8 @@
 import { Vision } from '@bezier/werewolf-core';
 
-import Board, { BoardOptions } from './Board';
-import Card from './Card';
-import Player from './Player';
+import Board, { BoardOptions } from './Board.js';
+import Card from './Card.js';
+import Player from './Player.js';
 
 /**
  * This represents the game board.

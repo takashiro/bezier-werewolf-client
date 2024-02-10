@@ -3,14 +3,14 @@ import {
 	Selection,
 } from '@bezier/werewolf-core';
 
-import type DashboardPlayer from '../base/DashboardPlayer';
-import type Collection from '../collection/Collection';
-import { SkillConstructor } from '../collection/CollectionEntry';
+import type DashboardPlayer from '../base/DashboardPlayer.js';
+import type Collection from '../collection/Collection.js';
+import { SkillConstructor } from '../collection/CollectionEntry.js';
 
-import BasicBoard from './BasicBoard';
-import { BoardOptions } from './Board';
-import type Player from './Player';
-import type Skill from './Skill';
+import BasicBoard from './BasicBoard.js';
+import { BoardOptions } from './Board.js';
+import type Player from './Player.js';
+import type Skill from './Skill.js';
 
 export default class Dashboard extends BasicBoard {
 	protected self: DashboardPlayer;

@@ -2,7 +2,7 @@ import http from 'http';
 import express from 'express';
 import api from '@bezier/werewolf-server';
 
-function globalSetup(): void {
+function globalSetup() {
 	const app = express();
 	app.use('/api', api);
 

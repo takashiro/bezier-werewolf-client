@@ -1,6 +1,6 @@
-import Board from '../game/Board';
-import Player from '../game/Player';
-import Skill from '../game/BasicSkill';
+import Board from '../game/Board.js';
+import Player from '../game/Player.js';
+import Skill from '../game/BasicSkill.js';
 
 class MultiPlayerSkill extends Skill {
 	constructor(

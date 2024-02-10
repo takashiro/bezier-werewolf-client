@@ -1,5 +1,5 @@
-import mitt, { EventType } from 'mitt';
 import { Role } from '@bezier/werewolf-core';
+import mitt, { EventType } from '../util/mitt.js';
 
 interface Events {
 	roleChanged: Role;

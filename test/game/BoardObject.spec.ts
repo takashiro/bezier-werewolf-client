@@ -5,7 +5,7 @@ import {
 } from '@jest/globals';
 import { Role } from '@bezier/werewolf-core';
 
-import BoardObject from '@bezier/werewolf-client/game/BoardObject';
+import BoardObject from '../../src/game/BoardObject';
 
 const obj = new BoardObject();
 

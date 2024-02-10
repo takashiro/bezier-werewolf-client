@@ -1,6 +1,6 @@
 import { Role } from '@bezier/werewolf-core';
 
-import CollectionEntry, { SkillConstructor } from './CollectionEntry';
+import CollectionEntry, { SkillConstructor } from './CollectionEntry.js';
 
 export type CollectionMap = Map<Role, CollectionEntry>;
 

@@ -14,8 +14,8 @@ import {
 	Room as RoomConfig,
 } from '@bezier/werewolf-core';
 
-import Lobby from '@bezier/werewolf-client/base/Lobby';
-import Room from '@bezier/werewolf-client/base/Room';
+import Lobby from '../../src/base/Lobby';
+import Room from '../../src/base/Room';
 
 import { client } from '../globals';
 import MemoryStorage from '../MemoryStorage';

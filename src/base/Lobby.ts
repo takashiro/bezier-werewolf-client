@@ -1,4 +1,3 @@
-import mitt, { EventType } from 'mitt';
 import {
 	LobbyStatus,
 	GameConfig,
@@ -9,8 +8,9 @@ import {
 	HttpError,
 	ScopedStorage,
 } from '@karuta/rest-client';
+import mitt, { EventType } from '../util/mitt.js';
 
-import Room from './Room';
+import Room from './Room.js';
 
 interface Events {
 	roomChanged: Room;

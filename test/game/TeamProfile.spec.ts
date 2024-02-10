@@ -1,7 +1,7 @@
 import { expect, it } from '@jest/globals';
 import { Role, Team } from '@bezier/werewolf-core';
 
-import TeamProfile from '@bezier/werewolf-client/game/TeamProfile';
+import TeamProfile from '../../src/game/TeamProfile';
 
 it('categorizes roles into teams', () => {
 	const teams = TeamProfile.fromRoles([
@@ -31,6 +31,6 @@ it('categorizes roles into teams', () => {
 });
 
 it('ignores unknown roles', () => {
-	const teams = TeamProfile.fromRoles([-1]);
+	const teams = TeamProfile.fromRoles([-1 as Role]);
 	expect(teams).toHaveLength(0);
 });

@@ -9,9 +9,9 @@ import {
 import { Role } from '@bezier/werewolf-core';
 import ScopedStorage from '@karuta/rest-client/ScopedStorage';
 
-import Lobby from '@bezier/werewolf-client/base/Lobby';
-import DashboardPlayer from '@bezier/werewolf-client/base/DashboardPlayer';
-import Room from '@bezier/werewolf-client/base/Room';
+import Lobby from '../../src/base/Lobby';
+import DashboardPlayer from '../../src/base/DashboardPlayer';
+import Room from '../../src/base/Room';
 
 import { client } from '../globals';
 import MemoryStorage from '../MemoryStorage';

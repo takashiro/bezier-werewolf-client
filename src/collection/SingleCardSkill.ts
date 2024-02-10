@@ -1,5 +1,5 @@
-import Card from '../game/Card';
-import Skill from '../game/BasicSkill';
+import Card from '../game/Card.js';
+import Skill from '../game/BasicSkill.js';
 
 export default class SingleCardSkill extends Skill {
 	override filterCard(target: Card): boolean {

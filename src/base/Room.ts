@@ -10,7 +10,7 @@ import {
 	ScopedStorage,
 } from '@karuta/rest-client';
 
-import DashboardPlayer from './DashboardPlayer';
+import DashboardPlayer from './DashboardPlayer.js';
 
 export default class Room extends ClientContext {
 	protected id = 0;

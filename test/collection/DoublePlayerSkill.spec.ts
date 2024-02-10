@@ -3,8 +3,8 @@ import {
 	expect,
 } from '@jest/globals';
 
-import Board from '@bezier/werewolf-client/game/BasicBoard';
-import DoublePlayerSkill from '@bezier/werewolf-client/collection/DoublePlayerSkill';
+import Board from '../../src/game/BasicBoard';
+import DoublePlayerSkill from '../../src/collection/DoublePlayerSkill';
 
 const board = new Board({
 	playerNum: 5,

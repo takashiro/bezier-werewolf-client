@@ -23,7 +23,7 @@ import {
 	MultiCardSkill,
 	MultiPlayerSkill,
 	Collection,
-} from '@bezier/werewolf-client';
+} from '../src';
 
 it('should have the following exports from base package', () => {
 	expect(DashboardPlayer).toBeTruthy();

@@ -1,4 +1,3 @@
-import mitt, { EventType } from 'mitt';
 import {
 	LynchResult,
 	Player as PlayerProfile,
@@ -11,7 +10,8 @@ import {
 	Query,
 } from '@karuta/rest-client';
 
-import randstr from '../util/randstr';
+import mitt, { EventType } from '../util/mitt.js';
+import randstr from '../util/randstr.js';
 
 interface Events {
 	seated: void;

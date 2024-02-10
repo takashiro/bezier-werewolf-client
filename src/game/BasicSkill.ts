@@ -1,7 +1,7 @@
-import Board from './Board';
-import Skill from './Skill';
-import Card from './Card';
-import Player from './Player';
+import Board from './Board.js';
+import Skill from './Skill.js';
+import Card from './Card.js';
+import Player from './Player.js';
 
 export default abstract class BasicSkill implements Skill {
 	protected board: Board;
