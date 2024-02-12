@@ -1,6 +1,6 @@
 {
   "name": "@bezier/werewolf-client",
-  "version": "0.1.1",
+  "version": "0.6.0",
   "description": "Web Client of One Night Ultimate Werewolf",
   "type": "module",
   "main": "dist",
