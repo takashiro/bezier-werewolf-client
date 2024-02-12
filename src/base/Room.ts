@@ -59,6 +59,11 @@ export default class Room extends ClientContext {
 	}
 
 	clearStorage(): void {
+		const seat = this.getDashboardSeat();
+		if (seat) {
+			const player = this.createPlayer(seat);
+			player.clearStorage();
+		}
 		this.removeItem('config');
 		this.removeItem('dashboard');
 	}
