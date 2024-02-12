@@ -71,7 +71,7 @@ describe('Read / write configuration from local storage', () => {
 
 	it('clears storage', () => {
 		room.clearStorage();
-		expect(removeItem).toBeCalledTimes(1);
+		expect(removeItem).toBeCalledTimes(2);
 		expect(removeItem).toBeCalledWith('config');
 	});
 });

@@ -60,6 +60,7 @@ export default class Room extends ClientContext {
 
 	clearStorage(): void {
 		this.removeItem('config');
+		this.removeItem('dashboard');
 	}
 
 	async fetchConfig(): Promise<RoomConfig> {
