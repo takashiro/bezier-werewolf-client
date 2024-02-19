@@ -24,14 +24,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 Introduction
 ------------
 
-This is an open-source client for One Night Ultimate Werewolf.
+This is an open-source client SDK for One Night Ultimate Werewolf.
+It can be leveraged to implement either CLI or GUI clients.
 
 Server: https://github.com/takashiro/bezier-werewolf-server
 
 Running Environment
 -------------------
-* Node v18.x or later versions
+* Node v20.x or later versions
 
 Development Environment
 -----------------------
-* Node v18.x or later versions
+* Node v20.x or later versions
