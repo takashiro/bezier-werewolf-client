@@ -6,21 +6,21 @@ import {
 } from '@jest/globals';
 
 import { Role } from '@bezier/werewolf-core';
-import Lobby from '../../src/base/Lobby';
+import Lobby from '../../src/base/Lobby.js';
 import type {
 	Room,
 	DashboardPlayer,
-} from '../../src';
-import Dashboard from '../../src/game/Dashboard';
+} from '../../src/index.js';
+import Dashboard from '../../src/game/Dashboard.js';
 import {
 	Collection,
 	DoubleCardSkill,
 	SinglePlayerSkill,
 	TargetlessSkill,
-} from '../../src/collection';
+} from '../../src/collection/index.js';
 
-import { client } from '../globals';
-import MemoryStorage from '../MemoryStorage';
+import { client } from '../globals.js';
+import MemoryStorage from '../MemoryStorage.js';
 
 const storage = new MemoryStorage();
 const lobby = new Lobby(client);

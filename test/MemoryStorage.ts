@@ -1,4 +1,4 @@
-import ClientStorage from '@karuta/rest-client/ClientStorage';
+import ClientStorage from '@karuta/rest-client/ClientStorage.js';
 
 export default class MemoryStorage implements ClientStorage {
 	protected readonly map = new Map<string, string>();

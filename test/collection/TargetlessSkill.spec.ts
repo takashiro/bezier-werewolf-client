@@ -3,8 +3,8 @@ import {
 	expect,
 } from '@jest/globals';
 
-import Board from '../../src/game/BasicBoard';
-import TargetlessSkill from '../../src/collection/TargetlessSkill';
+import Board from '../../src/game/BasicBoard.js';
+import TargetlessSkill from '../../src/collection/TargetlessSkill.js';
 
 const board = new Board({
 	playerNum: 5,

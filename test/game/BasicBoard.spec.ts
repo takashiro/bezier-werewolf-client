@@ -4,7 +4,7 @@ import {
 	it,
 } from '@jest/globals';
 
-import Board from '../../src/game/BasicBoard';
+import Board from '../../src/game/BasicBoard.js';
 
 const board = new Board({
 	playerNum: 5,

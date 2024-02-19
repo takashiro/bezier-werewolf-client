@@ -3,10 +3,10 @@ import {
 	expect,
 	it,
 } from '@jest/globals';
-import Board from '../../src/game/BasicBoard';
-import Player from '../../src/game/Player';
-import Card from '../../src/game/Card';
-import BasicSkill from '../../src/game/BasicSkill';
+import Board from '../../src/game/BasicBoard.js';
+import Player from '../../src/game/Player.js';
+import Card from '../../src/game/Card.js';
+import BasicSkill from '../../src/game/BasicSkill.js';
 
 jest.mock('../../src/game/BasicBoard');
 jest.mock('../../src/game/Player');

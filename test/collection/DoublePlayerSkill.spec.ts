@@ -3,8 +3,8 @@ import {
 	expect,
 } from '@jest/globals';
 
-import Board from '../../src/game/BasicBoard';
-import DoublePlayerSkill from '../../src/collection/DoublePlayerSkill';
+import Board from '../../src/game/BasicBoard.js';
+import DoublePlayerSkill from '../../src/collection/DoublePlayerSkill.js';
 
 const board = new Board({
 	playerNum: 5,

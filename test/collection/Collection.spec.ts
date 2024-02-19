@@ -7,7 +7,7 @@ import { Role } from '@bezier/werewolf-core';
 import {
 	Collection,
 	CollectionEntry,
-} from '../../src';
+} from '../../src/index.js';
 
 const col = new Collection('test');
 const entry1: CollectionEntry = {

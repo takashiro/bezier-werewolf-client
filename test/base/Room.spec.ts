@@ -6,9 +6,9 @@ import {
 	beforeEach,
 } from '@jest/globals';
 import { Role } from '@bezier/werewolf-core';
-import Client from '@karuta/rest-client/Client';
+import Client from '@karuta/rest-client/Client.js';
 
-import Room from '../../src/base/Room';
+import Room from '../../src/base/Room.js';
 
 const get = jest.fn<() => Promise<unknown>>();
 const client = { get } as unknown as Client;

@@ -1,7 +1,7 @@
 import { expect, it } from '@jest/globals';
 import { Role, Team } from '@bezier/werewolf-core';
 
-import TeamProfile from '../../src/game/TeamProfile';
+import TeamProfile from '../../src/game/TeamProfile.js';
 
 it('categorizes roles into teams', () => {
 	const teams = TeamProfile.fromRoles([

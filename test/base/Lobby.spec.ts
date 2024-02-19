@@ -14,11 +14,11 @@ import {
 	Room as RoomConfig,
 } from '@bezier/werewolf-core';
 
-import Lobby from '../../src/base/Lobby';
-import Room from '../../src/base/Room';
+import Lobby from '../../src/base/Lobby.js';
+import Room from '../../src/base/Room.js';
 
-import { client } from '../globals';
-import MemoryStorage from '../MemoryStorage';
+import { client } from '../globals.js';
+import MemoryStorage from '../MemoryStorage.js';
 
 const storage = new MemoryStorage();
 
