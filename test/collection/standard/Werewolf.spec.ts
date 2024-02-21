@@ -10,6 +10,7 @@ import { Role } from '@bezier/werewolf-core';
 import { client } from '../../globals.js';
 import Lobby from '../../../src/base/Lobby.js';
 import type Room from '../../../src/base/Room.js';
+import type DashboardPlayer from '../../../src/base/DashboardPlayer.js';
 import Dashboard from '../../../src/game/Dashboard.js';
 import Card from '../../../src/game/Card.js';
 import Player from '../../../src/game/Player.js';
@@ -37,6 +38,10 @@ const playerNum = 3;
 const cardNum = 3;
 
 let dashboard: Dashboard;
+let self: DashboardPlayer;
+let werewolf: DashboardPlayer;
+let villager: DashboardPlayer;
+
 const players: Player[] = [];
 const cards: Card[] = [];
 
@@ -56,13 +61,16 @@ afterAll(async () => {
 });
 
 it('takes the seat', async () => {
-	const player = room.createPlayer(1);
-	dashboard = new Dashboard(player, {
+	self = room.createPlayer(1);
+	werewolf = room.createPlayer(2);
+	villager = room.createPlayer(3);
+
+	dashboard = new Dashboard(self, {
 		playerNum,
 		cardNum,
 	});
 	dashboard.addCollection(standard);
-	const profile = await player.fetchProfile();
+	const profile = await self.fetchProfile();
 	expect(profile.role).toBe(Role.Werewolf);
 	players.push(...dashboard.getPlayers());
 	cards.push(...dashboard.getCards());
@@ -87,4 +95,34 @@ it('can see other werewolves', async () => {
 	expect(players[0].getRole()).toBe(Role.Werewolf);
 	expect(players[1].getRole()).toBe(Role.Werewolf);
 	expect(players[2].getRole()).toBe(Role.Unknown);
+});
+
+it('waits for other players to sit down', async () => {
+	await expect(() => dashboard.sync()).rejects.toThrowError('Other players are still taking their seats.');
+	await werewolf.fetchProfile();
+	await villager.fetchProfile();
+});
+
+it('waits for other players to invoke skills', async () => {
+	await expect(() => dashboard.sync()).rejects.toThrowError('Other players are still invoking their skills.');
+	await werewolf.invokeSkill(0);
+	await villager.invokeSkill(0);
+});
+
+it('votes to lynch a player', async () => {
+	await self.lynchPlayer(3);
+	const res = await self.fetchLynchResult();
+	expect(res.progress).toEqual({ current: 1, limit: 3 });
+	expect(res.votes).toBeUndefined();
+});
+
+it('sees lynch results', async () => {
+	await werewolf.lynchPlayer(3);
+	await villager.lynchPlayer(1);
+	const { progress, votes } = await self.fetchLynchResult();
+	expect(progress).toEqual({ current: 3, limit: 3 });
+	expect(votes).toHaveLength(3);
+	expect(votes![0]).toEqual({ source: 1, target: 3 });
+	expect(votes![1]).toEqual({ source: 2, target: 3 });
+	expect(votes![2]).toEqual({ source: 3, target: 1 });
 });
